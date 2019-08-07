@@ -1,0 +1,76 @@
+<?php
+
+//Derechos:         Copyright (c) 2018 Mis tiquetes
+//Ubicación:        Bogotá (Col.)
+//Fecha creación:   01-01-2018 - 07:00:00 a.m.
+//Nombre:           Capmsusp.php
+//Descripción:      Conceptos activaciones o inactivaciones (humanos - robots - vehículos)
+//Actualizaciones
+//Número de orden:  0000-0001
+//Ubicación:        Bogotá (Col.)
+//Fecha:            DD-MM-AAAA - HH:MM:SS a.m.
+//Descripción:      
+
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Capmsusp extends Model
+{
+	//Administrador Conceptos de Activaciones / Inactivaciones
+	protected $table = "capmsusp";
+	protected $primaryKey = 'm_nucodig';
+	protected $fillable = ['m_canombr','m_cacodna','m_caaplic','m_cacondi',
+							'm_caapesv','m_caestad','m_causreg','m_causact'];
+
+    //Relacion con el modelo usuario (Registra)
+    public function usuario_registra(){
+        return $this->belongsTo('App\User','m_causreg');
+    }
+
+	//Relacion con el modelo usuarios (Actualiza)
+    public function usuario_actualiza(){
+        return $this->belongsTo('App\User','m_causact');
+    }
+
+    //Buscador de Concepto por Nombre
+    public function scopeNombre($query,$nombre){
+        return $query->where('m_canombr','LIKE','%'.$nombre.'%');
+    }
+
+        //Filtro de Concepto codigo nacional
+    public function scopeCodigo_nacional($query,$m_cacodna){
+        return $query->where('m_cacodna','LIKE','%'.$m_cacodna.'%');
+    }
+
+    //Filtro de Concepto aplica PESV SI / NO
+    public function scopePesv($query,$m_caapesv){
+        return $query->where('m_caapesv','LIKE','%'.$m_caapesv.'%');
+    }
+
+    //Filtro de Concepto por Estado Activo / Inactivo
+    public function scopeEstado($query,$m_caestad){
+    	return $query->where('m_caestad','LIKE',$m_caestad);
+    }
+
+    //Filtro de Concepto Aplica a
+    public function scopeAplica($query,$m_caaplic){
+    	return $query->where('m_caaplic','LIKE',$m_caaplic);
+    }
+
+    //Filtro de Concepto Condicion
+    public function scopeCondicion($query,$m_cacondi){
+    	return $query->where('m_cacondi','LIKE',$m_cacondi);
+    }
+
+    //Filtro de Concepto por Usuario registra
+    public function scopeUsuario_registra($query,$m_causreg){
+        return $query->where('m_causreg','LIKE','%'.$m_causreg.'%');
+    }
+
+    //Filtro de Concepto por Usuario actualiza
+    public function scopeUsuario_actualiza($query,$m_causact){
+        return $query->where('m_causact','LIKE','%'.$m_causact.'%');
+    }
+}

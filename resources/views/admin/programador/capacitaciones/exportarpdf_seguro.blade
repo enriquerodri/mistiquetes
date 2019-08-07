@@ -1,0 +1,35 @@
+<!-- 
+
+//Derechos:         Copyright (c) 2018 Mis tiquetes
+//Ubicación:        Bogotá (Col.)
+//Fecha creación:   01-01-2018 - 07:00:00 a.m.
+//Nombre:           index.blade.php
+//Descripción:      Página principal: Capacitaciones
+//Actualizaciones
+//Número de orden:  0000-0001
+//Ubicación:        Bogotá (Col.)
+//Fecha:            DD-MM-AAAA - HH:MM:SS a.m.
+//Descripción:      
+ 
+-->
+
+<html>
+	<head>
+		<title>Capacitaciones</title>
+	</head>
+	<body>
+		<h1>Capacitaciones</h1>
+			@foreach($capacitaciones as $capacitacion)
+				<hr>
+				<strong>Id: </strong>{{$capacitacion->m_nucodig}}<br>
+				<strong>Nombre: </strong>{{$capacitacion->m_canombr}}<br>
+				<strong>Estado: </strong>{{$capacitacion->m_caestad}} <br>
+				<strong>Código nacional: </strong>{{$capacitacion->m_cacodna}} <br>
+				<strong>Plan estratégico de seguridad vial: </strong>{{$capacitacion->m_caapesv}} <br>
+				<strong>Registro: </strong>{{$capacitacion->created_at}} <br>
+				<strong>Usuario: </strong>{{$capacitacion->usuario_registra->name}}<br>
+				<strong>Actualizado: </strong>{{$capacitacion->updated_at}}<br>
+				<strong>Usuario: </strong>{{$capacitacion->usuario_actualiza->name}}<br><br>
+			@endforeach
+	</body>
+</html>

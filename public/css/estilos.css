@@ -1,0 +1,293 @@
+
+/* HORAS */
+.horas{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* USUARIO */
+.usuario{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* VERTICAL CENTRADO */
+.vcenter {
+    padding-top: 8px;
+}
+
+/* PAGINADO */
+.pagination{
+	margin:0px;
+}
+
+/* SEPARADOR */
+.separador{
+	display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+
+/* SEPARADOR */
+.separador_01{
+    border: 10px solid green;
+    border-radius: 5px;
+}
+
+/* INCIO: ENTRADA - SELECCION DE DATOS */
+/* CAMPO SIN ENFOCAR */
+input{
+    border: 1px solid #ccc;
+}
+
+/* CAMPO ENFOCADO */
+input:focus {
+    border: 2px solid #555;
+}
+
+/* INICIO: ICONOS ENTRADA- SELECCION DE DATOS */
+.center-block {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-group .icon-addon .form-control {
+    border-radius: 0;
+}
+
+.icon-addon {
+    position: relative;
+    color: #555;
+    display: block;
+}
+
+.icon-addon:after,
+.icon-addon:before {
+    display: table;
+    content: " ";
+}
+
+.icon-addon:after {
+    clear: both;
+}
+
+.icon-addon.addon-md .glyphicon,
+.icon-addon .glyphicon, 
+.icon-addon.addon-md .fa,
+.icon-addon .fa {
+    position: absolute;
+    z-index: 2;
+    left: 10px;
+    font-size: 14px;
+    width: 20px;
+    margin-left: -2.5px;
+    text-align: center;
+    padding: 10px 0;
+    top: 1px
+}
+
+.icon-addon.addon-lg .form-control {
+    line-height: 1.33;
+    height: 46px;
+    font-size: 18px;
+    padding: 10px 16px 10px 40px;
+}
+
+.icon-addon.addon-sm .form-control {
+    height: 30px;
+    padding: 5px 10px 5px 28px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.icon-addon.addon-lg .fa,
+.icon-addon.addon-lg .glyphicon {
+    font-size: 18px;
+    margin-left: 0;
+    left: 11px;
+    top: 4px;
+}
+
+.icon-addon.addon-md .form-control,
+.icon-addon .form-control {
+    padding-left: 30px;
+    float: left;
+    font-weight: normal;
+}
+
+.icon-addon.addon-sm .fa,
+.icon-addon.addon-sm .glyphicon {
+    margin-left: 0;
+    font-size: 12px;
+    left: 5px;
+    top: -1px
+}
+
+.icon-addon .form-control:focus + .glyphicon,
+.icon-addon:hover .glyphicon,
+.icon-addon .form-control:focus + .fa,
+.icon-addon:hover .fa {
+    color: #2580db;
+}
+/* FIN: ICONOS ENTRADA- SELECCION DE DATOS */
+
+/* INICIO: ENTRADA - RADIO */
+  .formulario {
+        padding-top: 5px;
+        cursor: pointer;
+    }
+  
+  .formulario .radio label {
+        display: inline-block;
+        cursor: pointer;
+        color: #5236FF;
+        position: relative;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        font-size: 14px;
+        border-radius: 0px;
+        -webkit-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+  .formulario .radio label:hover {
+        background: #F3F2F7;
+    } 
+
+    .formulario .radio label:before, {
+      content: "";
+      display: inline-block;
+      width: 17px;
+      height: 17px;
+      position: absolute;
+      left: 15px;
+      border-radius: 50%;
+      background: none;
+      border: 3px solid #FF4136; }
+
+  .formulario .radio input[type="radio"]:checked + label {
+        background: #DCD9E8;
+        color: #060606;
+        padding: 0px 0px;
+    }
+/* FIN: ENTRADA - RADIO */
+
+/* FIN: ENTRADA - SELECCION DE DATOS */
+
+/* ENCABEZADO TABLAS PAGINA */
+.encabezadotb{
+    background-color: #5CB85C; 
+    color: white; 
+    font-size:14px;
+    text-shadow:2px 2px 4px #000000;
+}
+
+/* VENTA TIQUETES */
+/* background-image: url("silla-libre.png"); */
+/* {{ asset('images/flaticon-png/small/usuario_hombre_11.jpg') }} */
+/* {{ asset('images/flaticon-png/small/silla-libre.png') }} */
+.libre{
+    position:relative;
+    background-image: url("{{ asset('images/flaticon-png/small/sc4.png') }}");
+    width: 44px;
+    height: 45px;
+    margin: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* background-image: url("silla-ocupada.png"); */
+/* {{ asset('images/flaticon-png/small/usuario_hombre_11.jpg') }} */
+/* {{ asset('images/flaticon-png/small/silla-ocupada.png') }} */
+.ocup{
+    position:relative;
+    background-image: url("{{ asset('images/flaticon-png/small/sc_6.png') }}");
+    width: 44px;
+    height: 45px;
+    margin: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.oculto{
+    position: absolute;
+    visibility: hidden; 
+}
+
+/* background-image: url("bus-frente.png"); */
+/* {{ asset('images/flaticon-png/small/usuario_hombre_11.jpg') }} */
+/* {{ asset('images/flaticon-png/small/bus-frente.png') }} */
+/* background-image: url("{{ asset('images/flaticon-png/small/bus-frente.png') }}");*/
+/* border: 2px solid #d8d2d2; */
+/* background: #ffffff; */
+/* background: #3498db; */
+
+.contenedor_plano{
+    width: 290px;
+    border-radius: 25px;
+    border: 2px solid #000000;
+    background: #FFFFFF;
+    padding: 17px;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    text-align:center;
+}
+
+.contenedor_resumen{
+    width: 260px;
+    border-radius: 0px;
+    border: 1px solid #d8d2d2;
+    background: #ffffff;
+    background-repeat: no-repeat;
+    padding: 17px;
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    text-align:left;
+}
+
+.contenedor__titulo_resumen{
+    width: 900px;
+    border-radius: 0px;
+    border: 1px solid #d8d2d2;
+    background: #3498db;
+    background-repeat: no-repeat;
+    padding: 17px;
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    text-align:left;
+}
+
+.input[type=checkbox] {
+  display:none;
+}
+ 
+.input[type=checkbox] + label{
+  background: url("{{ asset('images/flaticon-png/small/sc_3.png') }}") no-repeat;
+  background-size: 50%;
+  height: 250px;
+  width: 250px;
+  display:inline-block;
+  padding: 0 0 0 0px;
+}
+
+.input[type=checkbox]:checked + label{
+  background: url("{{ asset('images/flaticon-png/small/sc_5.png') }}") no-repeat;
+  background-size: 50%;
+  height: 250px;
+  width: 250px;
+  display:inline-block;
+  padding: 0 0 0 0px;
+}
+
