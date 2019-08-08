@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class Capmterm extends Model
 {
 	//Administrador Terminales de transporte
-	protected $table = "Capmterm";
+	protected $table = "capmterm";
 	protected $primaryKey = 'm_nucodig';
 	protected $fillable = ['m_canuipe','m_nudiver','m_nutipdo','m_canombr',
                 'm_cadirec','m_nucociu','m_catelfi','m_camovil','m_casitew',

@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 class Capmtsvh extends Model
 {
 	//Administrador Colores de vehículos
-	protected $table = "Capmtsvh";
+	protected $table = "capmtsvh";
 	protected $primaryKey = 'm_nucodig';
 	protected $fillable = ['m_canombr','m_cacodna','m_caestad','m_causreg','m_causact'];
 

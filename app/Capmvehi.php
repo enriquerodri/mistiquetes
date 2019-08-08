@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 class Capmvehi extends Model
 {
 	//Administrador de Cargos
-	protected $table = "Capmvehi";
+	protected $table = "capmvehi";
 	protected $primaryKey = 'm_nucodig';
 	protected $fillable = ['m_nucodig','m_caplaca','m_canuint','m_caviemp','m_catipos',
                             'm_caestad','m_fevincu','m_feestad','m_cadesta','m_caopres',

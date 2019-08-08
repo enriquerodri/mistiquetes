@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 class Capmclco extends Model
 {
     //Administrador Clientes convenios empresariales 
-    protected $table = "Capmclco";
+    protected $table = "capmclco";
     protected $primaryKey = 'm_nucodig';
     protected $fillable = ['m_canombr','m_cacodna','m_caestad',
                 'm_causreg','m_causact'];

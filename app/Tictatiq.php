@@ -19,7 +19,7 @@ class Tictatiq extends Model
 {
 
     //Administrador Compañías aseguradoras
-    protected $table = "Tictatiq"; 
+    protected $table = "tictatiq"; 
     protected $primaryKey = 'm_nucodig';
     protected $fillable = ['m_canuivi','m_canovij',
                 'm_causet1','m_fehoet1','m_fefevia',

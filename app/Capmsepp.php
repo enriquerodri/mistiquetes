@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class Capmsepp extends Model
 {
 	//Administrador Asociados - Conductores - Propietarios 
-	protected $table = "Capmsepp";
+	protected $table = "capmsepp";
 	protected $primaryKey = 'm_nucodig';
     protected $fillable = ['m_canombr','m_feexped','m_feinici','m_fevenci',
                             'm_canumer','m_cacateg','m_cadetal','m_cacodig',
