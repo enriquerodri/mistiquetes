@@ -373,8 +373,8 @@ class ConductoresController extends Controller
     //Edit: Función para actualizar campos de registros
     public function edit($id){
         $propietario = Capmascp::find($id);
-        $documentospersonas = DB::select('select * from Capmdopp where m_nuidper = ?', [$id]);
-        $segurospersonas = DB::select('select * from Capmsepp where m_nuidper = ?', [$id]);
+        $documentospersonas = DB::select('select * from capmdopp where m_nuidper = ?', [$id]);
+        $segurospersonas = DB::select('select * from capmsepp where m_nuidper = ?', [$id]);
 
         $usuregdocper = null;
         $usuactdocper = null;
@@ -400,7 +400,7 @@ class ConductoresController extends Controller
             ->where('capmascp.m_nucodig', $id)
             ->get();
 
-        $numeroVehiculo = DB::select('select * from Capmvehi where m_nucodig = ?', [$divisiones[0]->vehiculoActual]);
+        $numeroVehiculo = DB::select('select * from capmvehi where m_nucodig = ?', [$divisiones[0]->vehiculoActual]);
 
         //2-1 RESULTADOS: ENVIA
         return response()->json([$propietario,
