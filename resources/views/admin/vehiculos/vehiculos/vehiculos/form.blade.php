@@ -22,7 +22,7 @@
         background-color: #5CB85C; color: white; 
         font-size:14px; text-shadow:2px 2px 4px #000000;"
         aria-expanded="true">
-        <span class="open-sub"></span>Datos Generales form.bald.php
+        <span class="open-sub"></span>Datos Generales
       </a>
     </div>
     <div id="accordion11" class="panel-collapse collapse in" role="tablist" aria-expanded="true">

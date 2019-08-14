@@ -58,14 +58,9 @@ class Capmvehi extends Model
         return $this->belongsTo('App\Capmdivi','m_nucodiv');
     }
 
-    //Buscador de cargos por nombre
+    //Buscador de cargos numero interno
     public function scopeNombre($query,$nombre){
         return $query->where('m_canuint','LIKE','%'.$nombre.'%');
-    }
-
-    //Buscador de cargos por division
-    public function scopetipo_cargo($query,$tipo_cargo){
-        return $query->where('m_caticar','LIKE',$tipo_cargo);
     }
 
     //Buscador de cargos por division
@@ -73,9 +68,10 @@ class Capmvehi extends Model
         return $query->where('m_nucodiv','LIKE',$m_nucodiv);
     }
 
-    //Buscador de vehiculos por propietario
-    public function scopePropietariovehiculo($query,$m_caidpac){
-        return $query->where('m_caidpac','LIKE',$m_caidpac);
+
+    //Relación con el modelo Oficina
+    public function propietario_vehiculo(){
+        return $this->belongsTo('App\Capmascp','m_caidpac');
     }
 
     //Relacion con el modelo usuario (Registra)
@@ -98,6 +94,11 @@ class Capmvehi extends Model
         return $query->where('m_canuint','LIKE',$m_canuint);
     }
 
+    //Buscador de cenctro de costos
+    public function scopecentro_costos($query,$centro_costos){
+        return $query->where('m_cacenco','LIKE',$centro_costos);
+    }
+
     //Filtro de Divisiones codigo nacional
     public function scopeCodigo_nacional($query,$m_cacodna){
         return $query->where('m_cacodna','LIKE','%'.$m_cacodna.'%');
@@ -106,6 +107,11 @@ class Capmvehi extends Model
     //Filtro de Divisiones por Estado Activo / Inactivo (BUSQUEDA EXACTA)
     public function scopeEstado($query,$m_caestad){
         return $query->where('m_caestad','LIKE',$m_caestad);
+    }
+
+    //Buscador de vehiculos por propietario
+    public function scopepropietario_vehiculo($query,$m_caidpac){
+        return $query->where('m_caidpac','LIKE',$m_caidpac);
     }
 
    //APLICAR A TODOS LOS MODELOS BUSQUEDA EXACTA DE USUARIO REGISTRA - ACTUALIZA

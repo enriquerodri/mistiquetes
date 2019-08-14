@@ -19,6 +19,24 @@
 &nbsp&nbspPROPIETARIO PRINCIPAL
 </h4>
 
+<!-- PROPIEETARIO -->
+<div class="form-group">
+	<label class="col-sm-2 control-label">Propietario:</label>
+	<div class="col-sm-10">
+		<div class="icon-addon addon-md">
+			{!! Form::select('m_caidpac',$propietario_vehiculo,null, [
+					'class'=>'form-control',
+					'id'=>'m_caidpac',
+					'required'=>'required',
+					'placeholder'=>'PROPIETARIO...',
+					'title'=>"Lista de seleccción Propietario"
+				])
+			!!}
+			<label for="m_caidpac" class="glyphicon glyphicon-search" rel="tooltip" title="Seleccionar Propietario">
+			</label>
+		</div>
+	</div>
+</div>
 
 <h4 class="modal-title" id="myModalLabel" style="text-align: center;"><span class="fa fa-plus"></span>
 &nbsp<span class="fa fa-bus"></span>
@@ -87,7 +105,6 @@
 	        }               
 	    })
 	}
-
 
 </script>
 

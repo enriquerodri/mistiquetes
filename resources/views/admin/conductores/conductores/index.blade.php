@@ -542,8 +542,6 @@
   			//	DATOS FECHA Y USUARIO ACTUALIZA
   			$('#modaleditar #updated_at_d').val(dataResult.updated_at);
   			//$('#modaleditar #m_causact_d').val(dataResult.m_causact);
-
-
   			//se pone para validar si es nuevo el registro
 			var attr = $(val).attr('validarnuevo')
 			// For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.

@@ -17,6 +17,15 @@ Route::get('/admin/vehiculos', function(){ return view('admin.vehiculos.home'); 
 
 Route::resource('/admin/vehiculos/vehiculos/vehiculos','Admin\VehiculosController');
  
+//GUARDAR DOCUMENTOS VEHICULO
+Route::post('/guardarDocumentoVehiculo','Admin\VehiculosController@guardarDocumentoVehiculo');
+//ELIMINAR DOCUMENTOS VEHICULO
+Route::post('/eliminarDocumentoVehiculo','Admin\VehiculosController@eliminarDocumentoVehiculo');
+//GUARDAR SEGUROS VEHICULO
+Route::post('/guardarSeguroVehiculo','Admin\VehiculosController@guardarSeguroVehiculo');
+//ELIMINAR SEGUROS VEHICULO
+Route::post('/eliminarSeguroVehiculo','Admin\VehiculosController@eliminarSeguroVehiculo');
+
 Route::resource('/admin/vehiculos/tipos-combustible','Admin\TiposcombustibleController');
 Route::resource('/admin/vehiculos/clases','Admin\ClasesvehiculosController');
 Route::resource('/admin/vehiculos/lineas','Admin\LineasvehiculosController');
@@ -27,6 +36,9 @@ Route::resource('/admin/vehiculos/tipos-carrocerias','Admin\TiposcarroceriasCont
 Route::resource('/admin/vehiculos/rutas-registro','Admin\RutasadminController');
 Route::resource('/admin/vehiculos/rutas-autorizadas','Admin\RutasautorizadasController');
 Route::resource('/admin/vehiculos/propietarios','Admin\PropietariosController');
+
+
+
 Route::get('/admin/programador', function(){ return view('admin.programador.home'); })->middleware('auth')->name('admin-programador');
 Route::resource('/admin/programador/paises','Admin\PaisesController');
 Route::resource('/admin/programador/departamentos','Admin\DepartamentosController');
@@ -102,8 +114,6 @@ Route::get('/admin/auditor', function(){ return view('admin.auditor.home'); })->
 //CONDUCTORES
 Route::get('/admin/conductores', function(){ return view('admin.conductores.home'); })->name('admin-conductores');
 Route::resource('/admin/conductores/conductores','Admin\ConductoresController');
-
-
 //GUARDAR DOCUMENTOS PERSONA
 Route::post('/guardarDocumentoPersona','Admin\ConductoresController@guardarDocumentoPersona');
 //ELIMINAR DOCUMENTOS PERSONA
@@ -112,13 +122,10 @@ Route::post('/eliminarDocumentoPersona','Admin\ConductoresController@eliminarDoc
 Route::post('/guardarSeguroPersona','Admin\ConductoresController@guardarSeguroPersona');
 //ELIMINAR SEGUROS PERSONA
 Route::post('/eliminarSeguroPersona','Admin\ConductoresController@eliminarSeguroPersona');
-
-
 //EXPORTAR HOJA DE CALCULO CONDUCTORES DE VEHICULOS
 Route::get('conductores-excel','Admin\ConductoresController@exportarexcel')->name('conductores-excel');
 //EXPORTAR PDF CONDUCTORES DE VEHICULOS
 Route::get('conductores-pdf','Admin\ConductoresController@exportarpdf')->name('conductores-pdf');
-
 //CONSULTAS
 Route::get('/admin/consultas', function(){ return view('admin.consultas.home'); })->name('admin-consultas');
 //FICHA TECNICA
@@ -270,9 +277,7 @@ Route::get('oficinas-excel/','Admin\OficinasController@exportarexcel')->name('of
 //EXPORTAR PDF OFICINAS
 Route::get('oficinas-pdf','Admin\OficinasController@exportarpdf')->name('oficinas-pdf');
 
-
-//VEHICULOS 
-
+//VEHICULOS
 //EXPORTAR HOJA DE CALCULO VEHICULOS
 Route::get('vehiculos-excel','Admin\VehiculosController@exportarexcel')->name('vehiculos-excel');
 //EXPORTAR PDF VEHICULOS

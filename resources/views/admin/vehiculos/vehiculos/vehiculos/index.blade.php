@@ -69,6 +69,7 @@
 					<input type="hidden" name="m_canuint_campos" value="<?php if(isset($_GET['m_canuint_campos'])) echo $_GET['m_canuint_campos']; ?>">
 					<!-- FILTROS -->
 					<input type="hidden" name="m_canuint" value="<?php if(isset($_GET['m_canuint'])) echo $_GET['m_canuint']; ?>">
+					<input type="hidden" name="m_cacenco" value="<?php if(isset($_GET['m_cacenco'])) echo $_GET['m_cacenco']; ?>">
 					<input type="hidden" name="m_cacodna" value="<?php if(isset($_GET['m_cacodna'])) echo $_GET['m_cacodna']; ?>">
 					<input type="hidden" name="m_caestad" value="<?php if(isset($_GET['m_caestad'])) echo $_GET['m_caestad']; ?>">
 					<input type="hidden" name="m_causreg" value="<?php if(isset($_GET['m_causreg'])) echo $_GET['m_causreg']; ?>">
@@ -127,6 +128,7 @@
 				{{$vehiculos->appends([
 				'm_caplaca'=>$m_caplaca_filtro,
 				'm_canuint'=>$m_canuint_filtro,
+				'm_cacenco'=>$m_cacenco_filtro,
 				'm_caestad'=>$m_caestad_filtro,
 				'm_causreg'=>$m_causreg_filtro,
 				'm_causact'=>$m_causact_filtro,
@@ -147,7 +149,7 @@
 					<td>Placa</td>
 					<td>N° Interno</td>
 					<td>Centro de costos</td>
-					<td>Modelo</td>
+					<td>Vinculo</td>
 					<td>Estado</td>
 					<td>Propietario</td>
 					<td>Registro</td>
@@ -177,9 +179,9 @@
 						<td class="text-left">{{$vehiculo->m_caplaca}}</td>
 						<td>{{$vehiculo->m_canuint}}</td>
 						<td>{{$vehiculo->m_cacenco}}</td>
-						<td>{{$vehiculo->m_numodel}}</td>
+						<td>{{$vehiculo->m_caviemp}}</td>
 						<td>{{$vehiculo->m_caestad}}</td>
-						<td>{{$vehiculo->m_caidpac}}</td>
+						<td>{{$vehiculo->propietario_vehiculo->m_canombr}}</td>
 						<td>{{$vehiculo->created_at}} </td>
 						<td>{{$vehiculo->usuario_registra->name}} </td>
 						<td>{{$vehiculo->updated_at}} </td>
@@ -196,6 +198,7 @@
 		{{$vehiculos->appends([
 			'm_caplaca'=>$m_caplaca_filtro,
 			'm_canuint'=>$m_canuint_filtro,
+			'm_cacenco'=>$m_cacenco_filtro,
 			'm_caestad'=>$m_caestad_filtro,
 			'm_causreg'=>$m_causreg_filtro,
 			'm_canuint_ordene'=>$m_canuint_ordene,
@@ -299,8 +302,8 @@
 	<!-- INICIO FUNCION: ELIMINAR data[0].m_canuint -->   
 	<script>
 		function eliminar() {
-			var titulo = $('#modaleditar #m_canuint').val();
-			var codigo = $('#modaleditar #m_cacodna').val();
+			var titulo = $('#modaleditar #m_caplaca').val();
+			var codigo = $('#modaleditar #m_canuint').val();
 			var id = $('#modaleditar #m_id').val();
 
 			swal({
@@ -335,92 +338,191 @@
             
                     $("#formeditar").attr("action","vehiculos/"+id+"");
                     $('#modaleditar #m_id').val(data[0].m_nucodig);
-                    $('#modaleditar #m_caplaca').val(data[0].m_caplaca);
-                    $('#modaleditar #m_canuint').val(data[0].m_canuint);
-                    $('#modaleditar #m_cacenco').val(data[0].m_cacenco);
-                    $('#modaleditar #m_caestad').val(data[0].m_caestad);
-                    $('#modaleditar #m_caviemp').val(data[0].m_caviemp);
-                    $('#modaleditar #m_casenom').val(data[0].m_casenom);
-                    $('#modaleditar #m_caprape').val(data[0].m_caprape);
-                    $('#modaleditar #m_caseape').val(data[0].m_caseape);
-                    $('#modaleditar #m_cadirec').val(data[0].m_cadirec);
-                    $('#modaleditar #m_nucociu').val(data[0].m_nucociu);
-                    $('#modaleditar #m_catelfi').val(data[0].m_catelfi);
-                    $('#modaleditar #m_camovil').val(data[0].m_camovil);
-                    $('#modaleditar #m_casitew').val(data[0].m_casitew);
-                    $('#modaleditar #m_cacorel').val(data[0].m_cacorel);
-                    $('#modaleditar #m_caenvco').val(data[0].m_caenvco);
-                    $('#modaleditar #m_cadacon').val(data[0].m_cadacon);
-                    $('#modaleditar #m_caautna').val(data[0].m_caautna);
-                    $('#modaleditar #m_cacodna').val(data[0].m_cacodna);
-                    $('#modaleditar #m_caestad').val(data[0].m_caestad);
-                    $('#modaleditar #m_fenacim').val(data[0].m_fenacim);
-                    $('#modaleditar #m_nuedada').val(data[0].m_nuedada);
-                    $('#modaleditar #m_catipsa').val(data[0].m_catipsa);
-                    $('#modaleditar #m_catisex').val(data[0].m_catisex);
-                    $('#modaleditar #m_nuofici').val(data[0].m_nuofici);
-                    $('#modaleditar #m_caviemp').val(data[0].m_caviemp);
-                    $('#modaleditar #m_caasoci').val(data[0].m_caasoci);
-                    $('#modaleditar #m_fevinas').val(data[0].m_fevinas);
-                    $('#modaleditar #m_caestas').val(data[0].m_caestas);
-                    $('#modaleditar #m_feestas').val(data[0].m_feestas);
-                    $('#modaleditar #m_cadeeas').val(data[0].m_cadeeas);
-                    $('#modaleditar #m_caorpas').val(data[0].m_caorpas);
-                    $('#modaleditar #m_capropi').val(data[0].m_capropi);
-                    $('#modaleditar #m_fevinpr').val(data[0].m_fevinpr);
-                    $('#modaleditar #m_caestpr').val(data[0].m_caestpr);
-                    $('#modaleditar #m_feestpr').val(data[0].m_feestpr);
-                    $('#modaleditar #m_cadeepr').val(data[0].m_cadeepr);
-                    $('#modaleditar #m_caorppr').val(data[0].m_caorppr);
-                    $('#modaleditar #m_cacondu').val(data[0].m_cacondu);
-                    $('#modaleditar #m_fevinco').val(data[0].m_fevinco);
-                    $('#modaleditar #m_caestco').val(data[0].m_caestco);
-                    $('#modaleditar #m_feestco').val(data[0].m_feestco);
-                    $('#modaleditar #m_cadeeco').val(data[0].m_cadeeco);
-                    $('#modaleditar #m_caorpco').val(data[0].m_caorpco);
-                    $('#modaleditar #m_feinsco').val(data[0].m_feinsco);
-                    $('#modaleditar #m_fetesco').val(data[0].m_fetesco);
-                    $('#modaleditar #m_feincon').val(data[0].m_feincon);
-                    $('#modaleditar #m_nuexper').val(data[0].m_nuexper);
-                    $('#modaleditar #m_nucocar').val(data[0].m_nucocar);
-                    $('#modaleditar #m_nucogrt').val(data[0].m_nucogrt);
-                    $('#modaleditar #m_nucocol').val(data[0].m_nucocol);
-                  
-                    $('#modaleditar #m_fevehac').val(data[0].m_fevehac);
-                    $('#modaleditar #m_camovac').val(data[0].m_camovac);
-                    $('#modaleditar #m_caorvco').val(data[0].m_caorvco);
-                    $('#modaleditar #m_cavehac').val(data[0].m_cavehac);
-                    //$('#modaleditar #m_canuint').val(data[8][0].m_canuint);
+	                $('#modaleditar #m_caplaca').val(data[0].m_caplaca);
+	                $('#modaleditar #m_canuint').val(data[0].m_canuint);
+	                $('#modaleditar #m_caviemp').val(data[0].m_caviemp);
+	                $('#modaleditar #m_catipos').val(data[0].m_catipos);
+	                $('#modaleditar #m_caestad').val(data[0].m_caestad);
+	                $('#modaleditar #m_fevincu').val(data[0].m_fevincu);
+	                $('#modaleditar #m_feestad').val(data[0].m_feestad);
+	                $('#modaleditar #m_cadesta').val(data[0].m_cadesta);
+	                $('#modaleditar #m_caopres').val(data[0].m_caopres);
+	                $('#modaleditar #m_feinsuv').val(data[0].m_feinsuv);
+	                $('#modaleditar #m_fetesuv').val(data[0].m_fetesuv);
+	                $('#modaleditar #m_nucomar').val(data[0].m_nucomar);
+	                $('#modaleditar #m_nucolin').val(data[0].m_nucolin);
+	                $('#modaleditar #m_numodel').val(data[0].m_numodel);
+	                $('#modaleditar #m_nuantig').val(data[0].m_nuantig);
+	                $('#modaleditar #m_camorea').val(data[0].m_camorea);
+	                $('#modaleditar #m_cacilin').val(data[0].m_cacilin);
+	                $('#modaleditar #m_nucolor').val(data[0].m_nucolor);
+	                $('#modaleditar #m_caservi').val(data[0].m_caservi);
+	                $('#modaleditar #m_nucogru').val(data[0].m_nucogru);
+	                $('#modaleditar #m_nucosrv').val(data[0].m_nucosrv);
+	                $('#modaleditar #m_nucocar').val(data[0].m_nucocar);
+	                $('#modaleditar #m_nucocbl').val(data[0].m_nucocbl);
+	                $('#modaleditar #m_nucapci').val(data[0].m_nucapci);
+	                $('#modaleditar #m_nucodis').val(data[0].m_nucodis);
+	                $('#modaleditar #m_canumot').val(data[0].m_canumot);
+	                $('#modaleditar #m_canuvin').val(data[0].m_canuvin);
+	                $('#modaleditar #m_canuser').val(data[0].m_canuser);
+	                $('#modaleditar #m_canucha').val(data[0].m_canucha);
+	                $('#modaleditar #m_canurun').val(data[0].m_canurun);
+	                $('#modaleditar #m_cacofdh').val(data[0].m_cacofdh);
+	                $('#modaleditar #m_nucocir').val(data[0].m_nucocir);
+	                $('#modaleditar #m_nuancho').val(data[0].m_nuancho);
+	                $('#modaleditar #m_nualtos').val(data[0].m_nualtos);
+	                $('#modaleditar #m_nulargo').val(data[0].m_nulargo);
+	                $('#modaleditar #m_nuvolpo').val(data[0].m_nuvolpo);
+	                $('#modaleditar #m_nupesva').val(data[0].m_nupesva);
+	                $('#modaleditar #m_nucapdi').val(data[0].m_nucapdi);
+	                $('#modaleditar #m_nukiact').val(data[0].m_nukiact);
+	                $('#modaleditar #m_nukiprv').val(data[0].m_nukiprv);
+	                $('#modaleditar #m_nucorut').val(data[0].m_nucorut);
+	                $('#modaleditar #m_nucocib').val(data[0].m_nucocib);
+	                $('#modaleditar #m_carodam').val(data[0].m_carodam);
+	                $('#modaleditar #m_nusires').val(data[0].m_nusires);
+	                $('#modaleditar #m_nusipre').val(data[0].m_nusipre);
+	                $('#modaleditar #m_nusiweb').val(data[0].m_nusiweb);
+	                $('#modaleditar #m_caencon').val(data[0].m_caencon);
+	                $('#modaleditar #m_caencob').val(data[0].m_caencob);
+	                $('#modaleditar #m_caencre').val(data[0].m_caencre);
+	                $('#modaleditar #m_caencor').val(data[0].m_caencor);
+	                $('#modaleditar #m_caproju').val(data[0].m_caproju);
+	                $('#modaleditar #m_caidpac').val(data[0].m_caidpac);
+	                $('#modaleditar #m_caidpan').val(data[0].m_caidpan);
+	                $('#modaleditar #m_caidten').val(data[0].m_caidten);
+	                $('#modaleditar #m_nuavalu').val(data[0].m_nuavalu);
+	                $('#modaleditar #m_cacopuc').val(data[0].m_cacopuc);
+	                $('#modaleditar #m_cacenco').val(data[0].m_cacenco);
+	                $('#modaleditar #m_calidep').val(data[0].m_calidep);
+	                $('#modaleditar #m_calants').val(data[0].m_calants);
+	                $('#modaleditar #m_nulvtas').val(data[0].m_nulvtas);
+	                $('#modaleditar #m_nulvcas').val(data[0].m_nulvcas);
+	                $('#modaleditar #m_nulvpas').val(data[0].m_nulvpas);
+	                $('#modaleditar #m_nulvaas').val(data[0].m_nulvaas);
+	                $('#modaleditar #m_calpadc').val(data[0].m_calpadc);
+	                $('#modaleditar #m_nulvtpa').val(data[0].m_nulvtpa);
+	                $('#modaleditar #m_nulvcpa').val(data[0].m_nulvcpa);
+	                $('#modaleditar #m_nulpcpa').val(data[0].m_nulpcpa);
+	                $('#modaleditar #m_nulvapa').val(data[0].m_nulvapa);
+	                $('#modaleditar #m_calvppd').val(data[0].m_calvppd);
+	                $('#modaleditar #m_nulvcpd').val(data[0].m_nulvcpd);
+	                $('#modaleditar #m_nulpcpd').val(data[0].m_nulpcpd);
+	                $('#modaleditar #m_nulvapd').val(data[0].m_nulvapd);
+	                $('#modaleditar #m_calsrjo').val(data[0].m_calsrjo);
+	                $('#modaleditar #m_nulvtsj').val(data[0].m_nulvtsj);
+	                $('#modaleditar #m_nulvcsj').val(data[0].m_nulvcsj);
+	                $('#modaleditar #m_nulpcsj').val(data[0].m_nulpcsj);
+	                $('#modaleditar #m_nulvasj').val(data[0].m_nulvasj);
+	                $('#modaleditar #m_calsspz').val(data[0].m_calsspz);
+	                $('#modaleditar #m_nulvtsp').val(data[0].m_nulvtsp);
+	                $('#modaleditar #m_nulvcsp').val(data[0].m_nulvcsp);
+	                $('#modaleditar #m_nulpcsp').val(data[0].m_nulpcsp);
+	                $('#modaleditar #m_nulvasp').val(data[0].m_nulvasp);
+	                $('#modaleditar #m_caliper').val(data[0].m_caliper);
+	                $('#modaleditar #m_calic01').val(data[0].m_calic01);
+	                $('#modaleditar #m_calid01').val(data[0].m_calid01);
+	                $('#modaleditar #m_nuliv01').val(data[0].m_nuliv01);
+	                $('#modaleditar #m_calic02').val(data[0].m_calic02);
+	                $('#modaleditar #m_calid02').val(data[0].m_calid02);
+	                $('#modaleditar #m_nuliv02').val(data[0].m_nuliv02);
+	                $('#modaleditar #m_calic03').val(data[0].m_calic03);
+	                $('#modaleditar #m_calid03').val(data[0].m_calid03);
+	                $('#modaleditar #m_nuliv03').val(data[0].m_nuliv03);
+	                $('#modaleditar #m_calic04').val(data[0].m_calic04);
+	                $('#modaleditar #m_calid04').val(data[0].m_calid04);
+	                $('#modaleditar #m_nuliv04').val(data[0].m_nuliv04);
+	                $('#modaleditar #m_calic05').val(data[0].m_calic05);
+	                $('#modaleditar #m_calid05').val(data[0].m_calid05);
+	                $('#modaleditar #m_nuliv05').val(data[0].m_nuliv05);
+	                $('#modaleditar #m_calic06').val(data[0].m_calic06);
+	                $('#modaleditar #m_calid06').val(data[0].m_calid06);
+	                $('#modaleditar #m_nuliv06').val(data[0].m_nuliv06);
+	                $('#modaleditar #m_calic07').val(data[0].m_calic07);
+	                $('#modaleditar #m_calid07').val(data[0].m_calid07);
+	                $('#modaleditar #m_nuliv07').val(data[0].m_nuliv07);
+	                $('#modaleditar #m_calic08').val(data[0].m_calic08);
+	                $('#modaleditar #m_calid08').val(data[0].m_calid08);
+	                $('#modaleditar #m_nuliv08').val(data[0].m_nuliv08);
+	                $('#modaleditar #m_calic09').val(data[0].m_calic09);
+	                $('#modaleditar #m_calid09').val(data[0].m_calid09);
+	                $('#modaleditar #m_nuliv09').val(data[0].m_nuliv09);
+	                $('#modaleditar #m_calic10').val(data[0].m_calic10);
+	                $('#modaleditar #m_calid10').val(data[0].m_calid10);
+	                $('#modaleditar #m_nuliv10').val(data[0].m_nuliv10);
+	                $('#modaleditar #m_nulivto').val(data[0].m_nulivto);
+	                $('#modaleditar #m_caadmin').val(data[0].m_caadmin);
+	                $('#modaleditar #m_nuvaadm').val(data[0].m_nuvaadm);
+	                $('#modaleditar #m_nupoadm').val(data[0].m_nupoadm);
+	                $('#modaleditar #m_canomco').val(data[0].m_canomco);
+	                $('#modaleditar #m_nuvanco').val(data[0].m_nuvanco);
+	                $('#modaleditar #m_nuponco').val(data[0].m_nuponco);
+	                $('#modaleditar #m_cassoco').val(data[0].m_cassoco);
+	                $('#modaleditar #m_nuvasco').val(data[0].m_nuvasco);
+	                $('#modaleditar #m_nuposco').val(data[0].m_nuposco);
+	                $('#modaleditar #m_cafdoin').val(data[0].m_cafdoin);
+	                $('#modaleditar #m_nuvafdi').val(data[0].m_nuvafdi);
+	                $('#modaleditar #m_nupofdi').val(data[0].m_nupofdi);
+	                $('#modaleditar #m_cafdomu').val(data[0].m_cafdomu);
+	                $('#modaleditar #m_nuvafdm').val(data[0].m_nuvafdm);
+	                $('#modaleditar #m_nupofdm').val(data[0].m_nupofdm);
+	                $('#modaleditar #m_caldvpr').val(data[0].m_caldvpr);
+	                $('#modaleditar #m_nuldvvc').val(data[0].m_nuldvvc);
+	                $('#modaleditar #m_nuldvpc').val(data[0].m_nuldvpc);
+	                $('#modaleditar #m_capapel').val(data[0].m_capapel);
+	                $('#modaleditar #m_nuvapap').val(data[0].m_nuvapap);
+	                $('#modaleditar #m_nupopap').val(data[0].m_nupopap);
+	                $('#modaleditar #m_capdcpr').val(data[0].m_capdcpr);
+	                $('#modaleditar #m_nupdcvc').val(data[0].m_nupdcvc);
+	                $('#modaleditar #m_nupdcpc').val(data[0].m_nupdcpc);
+	                $('#modaleditar #m_capoliz').val(data[0].m_capoliz);
+	                $('#modaleditar #m_nuvaplz').val(data[0].m_nuvaplz);
+	                $('#modaleditar #m_nupoplz').val(data[0].m_nupoplz);
+	                $('#modaleditar #m_canomrv').val(data[0].m_canomrv);
+	                $('#modaleditar #m_nuvanrv').val(data[0].m_nuvanrv);
+	                $('#modaleditar #m_nuponrv').val(data[0].m_nuponrv);
+	                $('#modaleditar #m_cassorv').val(data[0].m_cassorv);
+	                $('#modaleditar #m_nuvasrv').val(data[0].m_nuvasrv);
+	                $('#modaleditar #m_nuposrv').val(data[0].m_nuposrv);
 
-                    $('#tituloeditar').html(data[0].m_canuint);
+                    $('#tituloeditar').html(data[0].m_caplaca + ' - ' + data[0].m_canuint);
                     $('#tituloeliminar').html(data[0].m_caplaca + ' - ' + data[0].m_canuint);
                     $("#formeliminar").attr("action","vehiculos/"+id+"");
 
 					//	DOCUMENTOS
-					$('#modaleditar #tablaDocumentosPersonas tbody').empty()
+					$('#modaleditar #tablaDocumentosVehiculos tbody').empty()
+					$('#modaleditar #m_canombr_d').val("")
+					$('#modaleditar #m_canumer_d').val("")
+					$('#modaleditar #m_feexped_d').val("")
+					$('#modaleditar #m_feinici_d').val("")
+					$('#modaleditar #m_fevenci_d').val("")
+					$('#modaleditar #m_nucocie_d').val("")
+					$('#modaleditar #m_nucodig_d').val("")
+					$('#modaleditar #datoDepa_d').val("")
+					$('#modaleditar #datoPais_d').val("")
+					$('#modaleditar #m_cadetal_d').val("")
+					$('#modaleditar #m_cacateg_d').val("")
+					$('#modaleditar #created_at_d').val("")
+					$('#modaleditar #m_causreg_d').val("")
+					$('#modaleditar #updated_at_d').val("")
+					$('#modaleditar #m_causact_d').val("")
+
 					for(var k in data[1]) {
 						
-						$('#modaleditar #tablaDocumentosPersonas tbody')
+						$('#modaleditar #tablaDocumentosVehiculos tbody')
 						    .append($('<tr>')
 								.append($('<td>').append($('<button>')
-									             .attr('id',data[1][k].m_nucodig+'editarTablaDocumentosPersonas')
+									             .attr('id',data[1][k].m_nucodig+'editarTablaDocumentosVehiculos')
 									             .attr('type','button')
 									             .attr('class','btn btn-primary')
 									             .addClass('fa fa-edit')
 									             .attr('style','font-size:18px;text-shadow:2px 2px 4px #000000;')
 									             .attr('title','Editar registro')
-								               	 .attr('onclick','editartablaDocumentosPersonas(this)')
+								               	 .attr('onclick','editartablaDocumentosVehiculos(this)')
 									             .attr('data-myval',JSON.stringify(data[1][k]))
-									             .attr('data-usuregdocper',JSON.stringify(data[4]))
-									             .attr('data-usuactdocper',JSON.stringify(data[5]))
-									            )
-												 .append($('<button>')
-									             .attr('id',data[1][k].m_nucodig+'eliminarTablaDocumentosPersonas')
-									             .attr('type','button')
-									             .attr('class','btn btn-danger')
-									             .addClass('fa fa-trash')
-									             .attr('style','font-size:18px;text-shadow:2px 2px 4px #000000; margin-left: 10px;')
-									             .attr('title','Eliminar registro')
+									             .attr('data-usuregdocveh',JSON.stringify(data[3]))
+									             .attr('data-usuactdocveh',JSON.stringify(data[4]))
 									            ))
 						       	.append($('<td>').html(data[1][k].m_canombr))
     							.append($('<td>').html(data[1][k].m_feexped))
@@ -430,31 +532,38 @@
 					}
 
 					//	SEGUROS
-					$('#modaleditar #tablaSegurosPersonas tbody').empty()
+					$('#modaleditar #tablaSegurosVehiculos tbody').empty()
+					$('#modaleditar #m_canombr_s').val("")
+					$('#modaleditar #m_canumer_s').val("")
+					$('#modaleditar #m_feexped_s').val("")
+					$('#modaleditar #m_feinici_s').val("")
+					$('#modaleditar #m_fevenci_s').val("")
+					$('#modaleditar #m_nucocie_s').val("")
+					$('#modaleditar #m_nucodig_s').val("")
+					$('#modaleditar #datoDepa_s').val("")
+					$('#modaleditar #datoPais_s').val("")
+					$('#modaleditar #m_cadetal_s').val("")
+					$('#modaleditar #m_cacateg_s').val("")
+					$('#modaleditar #created_at_s').val("")
+					$('#modaleditar #m_causreg_s').val("")
+					$('#modaleditar #updated_at_s').val("")
+					$('#modaleditar #m_causact_s').val("")
+
+
 					for(var k in data[2]) {
-						$('#modaleditar #tablaSegurosPersonas tbody')
+						$('#modaleditar #tablaSegurosVehiculos tbody')
 						    .append($('<tr>')
 								.append($('<td>').append($('<button>')
-									             .attr('id',data[2][k].m_nucodig+'tablaSegurosPersonas')
+									             .attr('id',data[2][k].m_nucodig+'editartablaSegurosVehiculos')
 									             .attr('type','button')
 									             .attr('class','btn btn-primary')
 									             .addClass('fa fa-edit')
 									             .attr('style','font-size:18px;text-shadow:2px 2px 4px #000000;')
 									             .attr('title','Editar registro')
-								               	 .attr('onclick','editarTablaSegurosPersonas(this)')
+								               	 .attr('onclick','editarTablaSegurosVehiculos(this)')
 									             .attr('data-myval',JSON.stringify(data[2][k]))
-									             .attr('data-usuregsegper',JSON.stringify(data[6]))
-									             .attr('data-usuactsegper',JSON.stringify(data[7]))
-									            )
-												 .append($('<button>')
-									             .attr('id',data[2][k].m_nucodig+'tablaSegurosPersonas')
-									             .attr('type','button')
-									             .attr('class','btn btn-danger')
-									             .addClass('fa fa-trash')
-									             .attr('style','font-size:18px;text-shadow:2px 2px 4px #000000; margin-left: 10px;')
-									             .attr('title','Eliminar registro')
-								               	 .attr('onclick','editarTablaSegurosPersonas(this)')
-									             .attr('data-myval',JSON.stringify(data[2][k]))
+									             .attr('data-usuregsegveh',JSON.stringify(data[5]))
+									             .attr('data-usuactsegveh',JSON.stringify(data[6]))
 									            ))
 						       	.append($('<td>').html(data[2][k].m_canombr))
     							.append($('<td>').html(data[2][k].m_feexped))
@@ -463,9 +572,8 @@
 						    );
 					}
 
-					//$('#modaleditar #m_nucodiv').val(data[3][0].nombreDivision);
-					//$('#modaleditar #m_canuint').val(data[8][0].m_canuint);
-					//$('#modaleditar #Prueba34').html(JSON.stringify(data[1]));
+					//	$('#modaleditar #m_nucodiv').val(data[3][0].nombreDivision);
+					//	$('#modaleditar #m_canuint').val(data[8][0].m_canuint);
                 }               
             })
 		}
@@ -473,8 +581,10 @@
 		   $("#m_canuint").focus();
 		});
 
-		function editartablaDocumentosPersonas(val) {
+		function editartablaDocumentosVehiculos(val) {
   			var dataResult = JSON.parse(val.dataset.myval)
+  			var idButton = $(val).attr('id')
+			$(".editartablaDocumentosVehiculos").show()
   			$('#modaleditar #m_nucodig_d').val(dataResult.m_nucodig);
   			$('#modaleditar #m_canombr_d').val(dataResult.m_canombr);
   			$('#modaleditar #m_canumer_d').val(dataResult.m_canumer);
@@ -486,15 +596,35 @@
   			$('#modaleditar #m_cacateg_d').val(dataResult.m_cacateg);
   			$('#modaleditar #created_at_d').val(dataResult.created_at);
   			$('#modaleditar #m_causreg_d').val(dataResult.m_causreg);
-  			//$('#modaleditar #m_causreg_d').val($('#modaleditar #1editarTablaDocumentosPersonas').data('usuregdocper')[0].name);
   			$('#modaleditar #updated_at_d').val(dataResult.updated_at);
-  			//$('#modaleditar #m_causact_d').val($('#modaleditar #1editarTablaDocumentosPersonas').data('usuactdocper')[0].name);
   			$('#modaleditar #m_causact_d').val(dataResult.m_causact);
-  			//traer los datos de data-userRegis en ese registro buscar el id y el nombre 
+  			$('#modaleditar #m_cainact_d').val(dataResult.m_cainact);
+  			$('#modaleditar #m_nudiapv_d').val(dataResult.m_nudiapv);
+  			//	DATOS CIUDAD DE EXPECICION
+  			datosCiudadDocumentos("m_nucocie_d")
+  			//	DATOS CONTROL VENCIMIENTO Y DIAS DE ALERTA POR VENCIMIENTO
+  			$('#modaleditar #m_cainact_d').val(dataResult.m_cainact);
+  			$('#modaleditar #m_nudiapv_d').val(dataResult.m_nudiapv);
+  			//	DATOS FECHA Y USUARIO REGISTRA
+  			$('#modaleditar #created_at_d').val(dataResult.created_at);  		
+  			//	DATOS FECHA Y USUARIO ACTUALIZA
+  			$('#modaleditar #updated_at_d').val(dataResult.updated_at);
+  			//se pone para validar si es nuevo el registro
+			var attr = $(val).attr('validarnuevo')
+			// For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.
+			if (typeof attr !== typeof undefined && attr !== false) {				
+				return 
+			}
+
+			$('#modaleditar #m_causreg_d').val($('#modaleditar #' + idButton).data('usuregdocveh')[0].name);
+			$('#modaleditar #m_causact_d').val($('#modaleditar #' + idButton).data('usuactdocveh')[0].name);
+
 		}
 
-		function editarTablaSegurosPersonas(val) {
+		function editarTablaSegurosVehiculos(val) {
   			var dataResult = JSON.parse(val.dataset.myval)
+  			var idButton = $(val).attr('id')
+  			$(".editarTablaSegurosVehiculos").show()
   			$('#modaleditar #m_nucodig_s').val(dataResult.m_nucodig);
   			$('#modaleditar #m_canombr_s').val(dataResult.m_canombr);
   			$('#modaleditar #m_canumer_s').val(dataResult.m_canumer);
@@ -508,8 +638,30 @@
   			$('#modaleditar #updated_at_s').val(dataResult.updated_at);
   			$('#modaleditar #m_causreg_s').val(dataResult.m_causreg);
   			$('#modaleditar #m_causact_s').val(dataResult.m_causact);
-  			//$('#modaleditar #m_causreg_s').val($('#modaleditar #1editarTablaSegurosPersonas').data('usuregsegper')[0].name);
-  			//$('#modaleditar #m_causact_s').val($('#modaleditar #1editarTablaSegurosPersonas').data('usuactsegper')[0].name);
+  			//	DATOS CIUDAD DE EXPECICION
+  			datosCiudadSeguros("m_nucocie_s")
+
+  			//	DATOS CATEGORA Y DETALLE
+  			$('#modaleditar #m_cadetal_s').val(dataResult.m_cadetal);
+  			$('#modaleditar #m_cacateg_s').val(dataResult.m_cacateg);
+  			//	DATOS CONTROL VENCIMIENTO Y DIAS DE ALERTA POR VENCIMIENTO
+  			$('#modaleditar #m_cainact_s').val(dataResult.m_cainact);
+  			$('#modaleditar #m_nudiapv_s').val(dataResult.m_nudiapv);
+  			//	DATOS FECHA Y USUARIO REGISTRA
+  			$('#modaleditar #created_at_s').val(dataResult.created_at);
+  			//	DATOS FECHA Y USUARIO ACTUALIZA
+  			$('#modaleditar #updated_at_s').val(dataResult.updated_at);
+
+  			//se pone para validar si es nuevo el registro
+			var attr = $(val).attr('validarnuevo')
+			// For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.
+			if (typeof attr !== typeof undefined && attr !== false) {				
+				return 
+			}
+
+  			$('#modaleditar #m_causreg_s').val($('#modaleditar #' + idButton).data('usuregsegveh')[0].name);
+  			$('#modaleditar #m_causact_s').val($('#modaleditar #' + idButton).data('usuactsegveh')[0].name);
+
 		}
 
 		function datosC(id){
@@ -710,7 +862,6 @@
 									{!! Form::select('m_canuint_campos', [
 											'm_caplaca'=>'PLACA',
 											'm_canuint'=>'N° Interno',
-											'm_cacenco'=>'Centro de Costos',
 											'm_caestad'=>'Estado',
 											'created_at'=>'Fecha registro',
 											'm_causreg'=>'Usuario Registra',
@@ -768,6 +919,7 @@
 								<!-- FILTROS -->
 								<input type="hidden" name="m_caplaca" value="<?php if(isset($_GET['m_caplaca'])) echo $_GET['m_caplaca']; ?>">
 								<input type="hidden" name="m_canuint" value="<?php if(isset($_GET['m_canuint'])) echo $_GET['m_canuint']; ?>">
+								<input type="hidden" name="m_cacenco" value="<?php if(isset($_GET['m_cacenco'])) echo $_GET['m_cacenco']; ?>">
 								<input type="hidden" name="m_nucociu" value="<?php if(isset($_GET['m_nucociu'])) echo $_GET['m_nucociu']; ?>">
 								<input type="hidden" name="m_cadacon" value="<?php if(isset($_GET['m_cadacon'])) echo $_GET['m_cadacon']; ?>">
 								<input type="hidden" name="m_cacodna" value="<?php if(isset($_GET['m_cacodna'])) echo $_GET['m_cacodna']; ?>">
@@ -807,6 +959,7 @@
 								<!-- FILTROS -->
 								<input type="hidden" name="m_caplaca" value="<?php if(isset($_GET['m_caplaca'])) echo $_GET['m_caplaca']; ?>">
 								<input type="hidden" name="m_canuint" value="<?php if(isset($_GET['m_canuint'])) echo $_GET['m_canuint']; ?>">
+								<input type="hidden" name="m_cacenco" value="<?php if(isset($_GET['m_cacenco'])) echo $_GET['m_cacenco']; ?>">
 								<input type="hidden" name="m_nucociu" value="<?php if(isset($_GET['m_nucociu'])) echo $_GET['m_nucociu']; ?>">
 								<input type="hidden" name="m_cadacon" value="<?php if(isset($_GET['m_cadacon'])) echo $_GET['m_cadacon']; ?>">
 								<input type="hidden" name="m_cacodna" value="<?php if(isset($_GET['m_cacodna'])) echo $_GET['m_cacodna']; ?>">

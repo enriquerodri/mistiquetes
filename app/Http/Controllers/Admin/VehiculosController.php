@@ -10,6 +10,7 @@
 //Ubicación:        Bogotá (Col.)
 //Fecha:            DD-MM-AAAA - HH:MM:SS a.m.
 //Descripción:      
+
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
@@ -28,8 +29,8 @@ use App\Capmpais;
 use App\Capmdepa;
 use App\Capmciud;
 use App\Capmsucu;
-use App\capmdopv;
-use App\capmseve;
+use App\Capmdopv;
+use App\Capmseve;
 use App\Capmcarg;
 use App\Capmdivi;
 use App\Capmgrtr;
@@ -115,20 +116,19 @@ class VehiculosController extends Controller
             //estado($request->m_caestad)->
             $vehiculos = Capmvehi::Nuipe($request->m_caplaca)->
                 Numerointerno($request->m_canuint)->
+                centro_costos($request->m_cacenco)->
                 estado($request->m_caestad)->
+                propietario_vehiculo($request->m_caidpac)->
                 usuario_registra($request->m_causreg)->
                 usuario_actualiza($request->m_causact)->
                 orderBy($m_canuint_campos,$m_canuint_ordene)->paginate(20);
 
             // RELACIONES
             //  PROPIETARIOS VEHICULOS
-            $propietariosvehiculos = Capmascp::orderBy('m_canombr','asc')->pluck('m_canombr','m_nucodig');
-            //  TIPOS DE DOCUMENTO 
-            //$tiposdocumentos = Capmtido::orderBy('m_canuint','asc')->pluck('m_canuint','m_nucodig');
-            //  CARGOS
-            //$cargos = Capmcarg::orderBy('m_canuint','asc')->pluck('m_canuint','m_nucodig','m_nucodiv');
-            //  DIVISIONES
-            //$divisiones = Capmdivi::orderBy('m_canuint','asc')->pluck('m_canuint','m_nucodig');
+            //$propietario_vehiculo = Capmascp::orderBy('m_canombr','asc')->pluck('m_canombr','m_nucodig');
+
+            $propietario_vehiculo = Capmascp::where('m_capropi','SI')->orderBy('m_canombr','asc')->pluck('m_canombr','m_nucodig');
+            //$specialities = Speciality::where('role_id',$request->roleid)->pluck('name','id');
             //  CIUDADES
             $ciudades = Capmciud::orderBy('m_canombr','asc')->pluck('m_canombr','m_nucodig','m_nucodep');
             //  DEPARTAMENTOS
@@ -139,19 +139,28 @@ class VehiculosController extends Controller
             $oficina_registro = Capmsucu::orderBy('m_canombr','asc')->pluck('m_canombr','m_nucodig');
             //  USUARIOS
             $usuarios = User::orderBy('name','asc')->pluck('name','id');
-            //  GRUPOS DE TRABAJO
-            //$grupostrabajos = capmgrtr::orderBy('m_canuint','asc')->pluck('m_canuint','m_nucodig');
-            //  TIPOS DE CONTRATO
-            //$tiposcontratos = capmtico::orderBy('m_canuint','asc')->pluck('m_canuint','m_nucodig');
+            //
+           $maestrodocumentos = DB::table('capmdocu')->
+                selectRaw('CONCAT(m_nucodig, ",", m_nudiapv, ",", m_cacoven, ",", m_nuorden) as m_nucodig, m_canombr')->
+                orderBy('m_canombr','asc')->
+                where([['m_caapvpa','=','SI'],['m_caestad','=','ACTIVO']])->
+                pluck('m_canombr','m_nucodig');
+
+            //  MAESTRO SEGUROS
+           $maestroseguros = DB::table('capmsegu')->
+                selectRaw('CONCAT(m_nucodig, ",", m_nudiapv, ",", m_cacoven, ",", m_nuorden) as m_nucodig, m_canombr')->
+                orderBy('m_canombr','asc')->
+                where([['m_caapvpa','=','SI'],['m_caestad','=','ACTIVO']])->
+                pluck('m_canombr','m_nucodig');
             //  CONDUCTOR VEHICULO ACTUAL
             //$vehiculoactconductores = Capmvehi::orderBy('m_caplaca','asc')->pluck('m_caplaca','m_nucodig');
-            
             //  VISTA
             return view('admin.vehiculos.vehiculos.vehiculos.index',
-                compact('vehiculos','propietariosvehiculos','usuarios',
+                compact('vehiculos','propietario_vehiculo','usuarios',
                         'ciudades','departamentos','paises',
+                        'maestrodocumentos','maestroseguros',
                         'm_caplaca_filtro', 'm_canuint_filtro',
-                        'm_caestad_filtro',
+                        'm_cacenco_filtro', 'm_caestad_filtro',
                         'm_causreg_filtro', 'm_causact_filtro',
                         'm_canuint_ordene','m_canuint_campos'));
         } else{
@@ -161,7 +170,7 @@ class VehiculosController extends Controller
         }
     }
 
-    //  3- CREAR
+    //  3- CREAR 
     //Create: Función para agregar registros a tabla
     public function create(){
         //  TIPOS DE DOCUMENTO
@@ -422,51 +431,39 @@ class VehiculosController extends Controller
         }
     }
 
-    //  5- EDITAR 
+    //  5- EDITAR
     //Edit: Función para actualizar campos de registros
     public function edit($id){
         $vehiculo = Capmvehi::find($id);
-        $documentospersonas = DB::select('select * from capmdopv where m_nuidper = ?', [$id]);
-        $segurospersonas = DB::select('select * from capmseve where m_nuidper = ?', [$id]);
 
-        $usuregdocper = null;
-        $usuactdocper = null;
-        $usuregsegper = null;
-        $usuactsegper = null;
-        if(count($documentospersonas)>0){
-            $usuregdocper = DB::select('select * from users where id = ?', [$documentospersonas[0]->m_causreg]);
+        $documentosvehiculos = DB::select('select * from capmdopv where m_nuidper = ?', [$id]);
+        $segurosvehiculos = DB::select('select * from capmseve where m_nuidper = ?', [$id]);
+
+        $usuregdocveh = null;
+        $usuactdocveh = null;
+        $usuregsegveh = null;
+        $usuactsegveh = null;
+        if(count($documentosvehiculos)>0){
+            $usuregdocveh = DB::select('select * from users where id = ?', [$documentosvehiculos[0]->m_causreg]);
         
-            $usuactdocper = DB::select('select * from users where id = ?', [$documentospersonas[0]->m_causact]);
+            $usuactdocveh = DB::select('select * from users where id = ?', [$documentosvehiculos[0]->m_causact]);
         }
 
-        if(count($segurospersonas)>0){
-            $usuregsegper = DB::select('select * from users where id = ?', [$segurospersonas[0]->m_causreg]);
+        if(count($segurosvehiculos)>0){
+            $usuregsegveh = DB::select('select * from users where id = ?', [$segurosvehiculos[0]->m_causreg]);
             
-            $usuactsegper = DB::select('select * from users where id = ?', [$segurospersonas[0]->m_causact]);
+            $usuactsegveh = DB::select('select * from users where id = ?', [$segurosvehiculos[0]->m_causact]);
         }
-
-        //$divisiones,
-        //$divisiones = $vehiculo //DB::table('Capmvehi')
-        //    ->select('Capmvehi.m_canuint as nombreConductor', 'Capmvehi.m_cavehac as vehiculoActual',
-        //             'capmcarg.m_canuint as nombreCargo', 'capmdivi.m_canuint as nombreDivision')
-        //    ->join('capmcarg', 'Capmvehi.m_nucocar', '=', 'capmcarg.m_nucodig')
-        //    ->join('capmdivi', 'capmcarg.m_nucodiv', '=', 'capmdivi.m_nucodig')
-        //    ->where('Capmvehi.m_nucodig', $id)
-        //    ->get();
-
-        //$numeroVehiculo,
-        //$numeroVehiculo = DB::select('select * from Capmvehi where m_nucodig = ?', [$divisiones[0]->vehiculoActual]);
 
         //2-1 RESULTADOS: ENVIA
         return response()->json([$vehiculo,
-                                $documentospersonas,
-                                $segurospersonas,
-                                $usuregdocper,
-                                $usuactdocper,
-                                $usuregsegper,
-                                $usuactsegper,
+                                $documentosvehiculos,
+                                $segurosvehiculos,
+                                $usuregdocveh,
+                                $usuactdocveh,
+                                $usuregsegveh,
+                                $usuactsegveh,
                             ]);
-
     }
 
     //  6- MOSTRAR
@@ -1068,7 +1065,6 @@ class VehiculosController extends Controller
     //  10- EXPORTAR: HOJA DE CALCULO
     // Funcion para exportar HOJA DE CALCULO
     public function exportarexcel(Request $request){
-
         // 0- ORDEN FILTROS
         //ORDENAMIENTO
         // ASCENDENTE - DESCENTE
@@ -1358,51 +1354,174 @@ class VehiculosController extends Controller
         return response()->json([$vehiculoVehiculo,$numeroVehiculo]);
     }
 
-    public function guardarDocumentoPersona(Request $request){    
-        $m_nucodig = (int)$request->input('m_nucodig');
-        $documentosPersona = capmdopv::find($m_nucodig);
+    public function guardarDocumentoVehiculo(Request $request){
+
+        //return response()->json([$request->m_feexped]);
+        $agregarDocumentoVehiculo = $request->input('agregarDocumentoVehiculo');
+        if ($agregarDocumentoVehiculo == "true") {
+            $m_nucodoc = (int)$request->input('m_nucodigo_d');
+            $m_cainact = $request->input('m_cainact');
+            $m_nudiapv = $request->input('m_nudiapv');
+            $m_nuidper = (int)$request->input('m_id');
+            $m_canombr = $request->input('nombreDocumento'); 
+            $fechaActual = $request->input('fechaActual');
+            $m_nuordoc = 0;
+            $fechaVacia = "0000-00-00";
+
+            //2- CONSULTA SI EL NUIP YA EXISTE
+            $chequeoDocumento = Capmdopv::where([['m_nuidper','=',$m_nuidper],['m_nucodoc','=',$m_nucodoc]])->get();              
+            if(count($chequeoDocumento)>0){
+              return response()->json([false]); 
+            }
+
+            try {
+                //2-1 EL NOMBRE NUEVO NO EXISTE
+                //2-2 INSERTAR LOS DATOS
+                $crearDocumentoVehiculo = Capmdopv::create([
+                    'm_canombr' => $m_canombr,
+                    'm_nucodoc' => $m_nucodoc,
+                    'm_cainact' => $m_cainact,
+                    'm_nudiapv' => $m_nudiapv,
+                    'm_nuidper' => $m_nuidper,
+                    'm_nuordoc' => $m_nuordoc,
+                    'm_causreg'=>Auth::user()->id,
+                    'm_causact'=>Auth::user()->id
+                ]);
+
+                return response()->json([$crearDocumentoVehiculo]); 
+            } catch (ModelNotFoundException $exception) {
+                return back()->withError($exception->getMessage())->withInput();
+            }
+        }else{
+            $m_nucodig = (int)$request->input('m_nucodig');
+            $documentosVehiculo = Capmdopv::find($m_nucodig);
+            //2-1 BUSCA EL REGISTRO POR EL ID TOMA VALORES INICIALES (AUDITORIA)
+            $con_dat_ini = Capmdopv::find($m_nucodig);
+
+            try {
+                //AGREGRAR TODOS LOS CAMPOS DE LA TABLA DOCUMENTOS
+                $documentosVehiculo->m_feexped = $request->m_feexped;
+                $documentosVehiculo->m_feinici = $request->m_feinici;
+                $documentosVehiculo->m_fevenci = $request->m_fevenci;
+                $documentosVehiculo->m_canumer = $request->m_canumer;
+                $documentosVehiculo->m_cacateg = $request->m_cacateg;
+                $documentosVehiculo->m_cadetal = $request->m_cadetal;
+                $documentosVehiculo->m_nucocie = $request->m_nucocie;
+                $documentosVehiculo->m_causact = Auth::user()->id;
+                $documentosVehiculo->save();
+
+                //2-4 BUSCA EL REGISTRO POR EL ID TOMA VALORES FINALES (AUDITORIA)
+                $con_dat_fin = Capmdopv::find($m_nucodig);
+                //2-5 COMPARA VALORES INICIALES VS VALORES FINALES
+                if($con_dat_ini != $con_dat_fin){
+                    return response()->json([true]); 
+                }
+            } catch (ModelNotFoundException $exception) {
+                return back()->withError($exception->getMessage())->withInput();
+            }
+        }
+    }
+
+    public function eliminarDocumentoVehiculo(Request $request){
+             
+        $m_nucodig = (int)$request->input('id');
+        $documentosVehiculo = Capmdopv::find($m_nucodig);
 
         try {
-            //AGREGRAR TODOS LOS CAMPOS DE LA TABLA DOCUMENTOS
-            $documentosPersona->m_feexped = $request->m_feexped;
-            $documentosPersona->m_feinici = $request->m_feinici;
-            $documentosPersona->m_fevenci = $request->m_fevenci;
-            $documentosPersona->m_canumer = $request->m_canumer;
-            $documentosPersona->m_cacateg = $request->m_cacateg;
-            $documentosPersona->m_cadetal = $request->m_cadetal;
-            $documentosPersona->m_nucocie = $request->m_nucocie;
-            $documentosPersona->m_causact = Auth::user()->id;
-            $documentosPersona->save();
+            //ELIMINAR REGISTRO DE LA TABLA DOCUMENTOS
+            $documentosVehiculo->delete();
 
-            return response()->json([true]); 
+            return response()->json([$documentosVehiculo]); 
         } catch (ModelNotFoundException $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
+    }
+    
+    public function guardarSeguroVehiculo(Request $request){
 
-       }
+        //return response()->json([$request->m_feexped]); 
+        $agregarSeguroVehiculo = $request->input('agregarSeguroVehiculo');
+        if ($agregarSeguroVehiculo == "true") {
+            $m_nucodoc = (int)$request->input('m_nucodigo_s');
+            $m_cainact = $request->input('m_cainact');
+            $m_nudiapv = $request->input('m_nudiapv');
+            $m_nuidper = (int)$request->input('m_id');
+            $m_canombr = $request->input('nombreSeguro'); 
+            $fechaActual = $request->input('fechaActual');
+            $m_nuordoc = 0;
+            $fechaVacia = "0000-00-00";
 
-    public function guardarSeguroPersona(Request $request){
+            //2- CONSULTA SI EL NUIP YA EXISTE
+            $chequeoSeguro = Capmseve::where([['m_nuidper','=',$m_nuidper],['m_nucodoc','=',$m_nucodoc]])->get();              
+            if(count($chequeoSeguro)>0){
+              return response()->json([false]); 
+            }
 
-        $m_nucodig = (int)$request->input('m_nucodig');
-        $segurosPersona = capmseve::find($m_nucodig);
+
+            try {
+                //2-1 EL NOMBRE NUEVO NO EXISTE
+                //2-2 INSERTAR LOS DATOS
+                $crearSeguroVehiculo = Capmseve::create([
+                    'm_canombr' => $m_canombr,
+                    'm_nucodoc' => $m_nucodoc,
+                    'm_cainact' => $m_cainact,
+                    'm_nudiapv' => $m_nudiapv,
+                    'm_nuidper' => $m_nuidper,
+                    'm_nuordoc' => $m_nuordoc,
+                    'm_causreg'=>Auth::user()->id,
+                    'm_causact'=>Auth::user()->id
+                ]);
+
+                return response()->json([$crearSeguroVehiculo]); 
+            } catch (ModelNotFoundException $exception) {
+                return back()->withError($exception->getMessage())->withInput();
+            }
+
+        }else{
+            $m_nucodig = (int)$request->input('m_nucodig');
+            $SegurosVehiculo = Capmseve::find($m_nucodig);
+            //2-1 BUSCA EL REGISTRO POR EL ID TOMA VALORES INICIALES (AUDITORIA)
+            $con_dat_ini = Capmseve::find($m_nucodig);
+
+            try {
+                //AGREGRAR TODOS LOS CAMPOS DE LA TABLA SEGUROS
+                $SegurosVehiculo->m_feexped = $request->m_feexped;
+                $SegurosVehiculo->m_feinici = $request->m_feinici;
+                $SegurosVehiculo->m_fevenci = $request->m_fevenci;
+                $SegurosVehiculo->m_canumer = $request->m_canumer;
+                $SegurosVehiculo->m_cacateg = $request->m_cacateg;
+                $SegurosVehiculo->m_cadetal = $request->m_cadetal;
+                $SegurosVehiculo->m_nucocie = $request->m_nucocie;
+                $SegurosVehiculo->m_causact = Auth::user()->id;
+                $SegurosVehiculo->save();
+
+                //2-4 BUSCA EL REGISTRO POR EL ID TOMA VALORES FINALES (AUDITORIA)
+                $con_dat_fin = Capmseve::find($m_nucodig);
+                //2-5 COMPARA VALORES INICIALES VS VALORES FINALES
+                if($con_dat_ini != $con_dat_fin){
+                    return response()->json([true]); 
+                }
+            } catch (ModelNotFoundException $exception) {
+                return back()->withError($exception->getMessage())->withInput();
+            }
+
+        }
+    }
+
+    public function eliminarSeguroVehiculo(Request $request){
+             
+        $m_nucodig = (int)$request->input('id');
+        $segurosVehiculo = Capmseve::find($m_nucodig);
 
         try {
-            //AGREGRAR TODOS LOS CAMPOS DE LA TABLA DOCUMENTOS
-            $segurosPersona->m_feexped = $request->m_feexped;
-            $segurosPersona->m_feinici = $request->m_feinici;
-            $segurosPersona->m_fevenci = $request->m_fevenci;
-            $segurosPersona->m_canumer = $request->m_canumer;
-            $segurosPersona->m_cacateg = $request->m_cacateg;
-            $segurosPersona->m_cadetal = $request->m_cadetal;
-            $segurosPersona->m_nucocie = $request->m_nucocie;            
-            $segurosPersona->m_causact = Auth::user()->id;
-            $segurosPersona->save();
+            //ELIMINAR REGISTRO DE LA TABLA SEGUROS 
+            $segurosVehiculo->delete();
 
-            return response()->json([true]); 
+            return response()->json([$segurosVehiculo]); 
         } catch (ModelNotFoundException $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
-
-       }
+    }
 
 }
+
